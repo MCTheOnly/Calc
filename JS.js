@@ -62,7 +62,7 @@ var appController = (function () {
                 data.value1[0] += targetHTML;
             }
 
-        } else if (num == false && data.value1.length > 0 && data.operation.length == 0 && targetHTML !== "C" && targetHTML !== "=" && targetHTML !== ".") {
+        } else if (num == false && data.value1.length > 0 && data.operation.length == 0 && targetHTML !== "C" && targetHTML !== "=" && targetHTML !== "." && targetHTML !== "+/-" && targetHTML !== "%") {
             data.operation.push(targetHTML);
 
         } else if ((num == true || targetHTML == ".") && data.value1.length > 0 && data.operation.length > 0 && data.value2.length == 0) {
@@ -158,12 +158,24 @@ var UIController = (function () {
 var globalController = (function (UI, App) {
 
     UI.sqArray().forEach(function (t) {
-        var arr;
+        var arr, bg;
 
         t.addEventListener("click", function () {
             App.calcThis(t);
             arr = App.publicTest();
             UI.insertEq(t.innerHTML, arr);
+            t.style.fontSize = "2em";
+            setInterval(function () {
+                t.style.fontSize = "1.2em";
+            }, 80);
+        })
+
+        t.addEventListener("mouseover", function () {
+            bg = t.style.background;
+            t.style.background = "green";
+        })
+        t.addEventListener("mouseout", function() {
+            t.style.background = bg;
         })
     })
 
