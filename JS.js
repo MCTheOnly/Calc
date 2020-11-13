@@ -1,4 +1,4 @@
-variables = {
+v = {
     calculator: document.querySelector(".calcHolder"),
     calc: {
         disp: document.querySelector(".cDisplay"),
@@ -10,23 +10,45 @@ variables = {
 };
 
 
-
-
 var appController = (function () {
 
     var data = {
-            value1: [],
-            value2: [],
-            operation: [],
-            result: []
+        value1: [],
+        value2: [],
+        operation: [],
+        result: []
     };
+
+    var calc = function () {
+
+        switch (data.operation[0]) {
+            case "+":
+                data.result.push(parseFloat(data.value1) + parseFloat(data.value2));
+                break;
+            case "-":
+                data.result.push(parseFloat(data.value1) - parseFloat(data.value2));
+                break;
+            case "x":
+                data.result.push(parseFloat(data.value1) * parseFloat(data.value2));
+                break;
+            case "/":
+                data.result.push(parseFloat(data.value1) / parseFloat(data.value2));
+                break;
+        }
+    }
+
+    var clearAll = function () {
+        data.value1 = [];
+        data.value2 = [];
+        data.result = [];
+        data.operation = [];
+    }
 
     var calculate = function (target, txt) {
         var targetHTML, num;
 
         targetHTML = target.innerHTML;
         num = !isNaN(targetHTML);
-
 
         if ((num == true || targetHTML == ".") && data.value1.length == 0 && data.operation.length == 0) {
             if (targetHTML == ".") {
@@ -36,42 +58,44 @@ var appController = (function () {
             }
 
         } else if ((num == true || targetHTML == ".") && data.value1.length > 0 && data.operation.length == 0) {
-            if (data.value1[0].includes(".") == false) {
+            if (data.value1[0].includes(".") == true && targetHTML == ".") {
+            } else {
                 data.value1[0] += targetHTML;
-                console.log(data.value1[0].includes("."));
-            } else if (data.value1[0].charAt(data.value1[0].length - 1) == "." && targetHTML !== ".") {
-                data.value1[0] += targetHTML;
-            } else if (data.value1[0].includes(".") == true && targetHTML !== ".") {
-                data.value1[0] += targetHTML;
-            } 
+            }
 
         } else if (num == false && data.value1.length > 0 && data.operation.length == 0 && targetHTML !== "C" && targetHTML !== "=" && targetHTML !== ".") {
             data.operation.push(targetHTML);
+
         } else if ((num == true || targetHTML == ".") && data.value1.length > 0 && data.operation.length > 0 && data.value2.length == 0) {
-            if (data.value2.length == 0 && targetHTML == ".") { data.value2.push("0" + targetHTML); } else { data.value2.push(targetHTML); }
-        } else if (num == true && data.value1.length > 0 && data.operation.length > 0 && data.value2.length > 0) {
-            data.value2[0] += targetHTML;
-        } else if (num == false && data.value1.length > 0 && data.operation.length > 0 && data.value2.length > 0 && targetHTML == "=") {
-            switch (data.operation[0]) {
-                case "+":
-                    data.result.push(parseFloat(data.value1) + parseFloat(data.value2));
-                    break;
-                case "-":
-                    data.result.push(parseFloat(data.value1) - parseFloat(data.value2));
-                    break;
-                case "x":
-                    data.result.push(parseFloat(data.value1) * parseFloat(data.value2));
-                    break;
-                case "/":
-                    data.result.push(parseFloat(data.value1) / parseFloat(data.value2));
-                    break;
+            if (data.value2.length == 0 && targetHTML == ".") {
+                data.value2.push("0" + targetHTML);
+            } else {
+                data.value2.push(targetHTML);
             }
+
+        } else if ((num == true || targetHTML == ".") && data.value1.length > 0 && data.operation.length > 0 && data.value2.length > 0) {
+            if (data.value2[0].includes(".") && targetHTML == ".") {
+            } else {
+                data.value2[0] += targetHTML;
+            }
+
+        } else if (data.value1.length > 0 && data.operation.length > 0 && data.value2.length > 0) {
+            if (targetHTML == "=") {
+                calc();
+            } else if (targetHTML == "+" || targetHTML == "-" || targetHTML == "x" || targetHTML == "/") {
+                calc();
+                data.value1[0] = data.result[0];
+                data.value2 = [];
+                data.result = [];
+                data.operation[0] = targetHTML;
+            }
+        }
+        if (targetHTML == "C") {
+            clearAll();
         }
 
     }
-    //2. przy = oblicz
 
-    //3. wype³nij wynik
     return {
         publicTest: function () {
             return data
@@ -82,10 +106,6 @@ var appController = (function () {
     }
     })();
 
-
-
-
-
 var UIController = (function () {
 
     let squareArr = [];
@@ -93,24 +113,37 @@ var UIController = (function () {
     for (let i = 0; i < 19; i++) {
         const square = document.createElement("div");
         square.classList.add("button");
-        variables.calc.keyboard.appendChild(square);
+        v.calc.keyboard.appendChild(square);
         squareArr.push(square);
-        squareArr[i].innerHTML = variables.keyValues[i];
-        squareArr[i].style.background = "#" + parseInt(Math.floor(Math.random() * 16777215).toString(16), 16);
+        squareArr[i].innerHTML = v.keyValues[i];
+
+        if (i == 3 || i == 7 || i == 11 || i == 15) {
+            squareArr[i].style.background = "#9156e1";
+            squareArr[i].style.color = "white";
+        }
+        if (i !== 3 && i !== 7 && i !== 11 && i !== 15 && i !== 18) {
+            squareArr[i].style.background = 'url("./img/bg' + i + '.jpg")';
+            console.log(i);
+        }
     }
+    squareArr[18].style.width = "50%";
+    squareArr[18].style.background = "#e62f89";
+    squareArr[18].style.color = "white";
+
+
 
     var updateEquation = function (txt, ar) {
-        if (ar.operation.length == 0 && ar.value2.length == 0) {
-            variables.calc.equation.innerHTML = ar.value1[0];
+        if (ar.value1.length > 0 && ar.operation.length == 0 && ar.value2.length == 0) {
+            v.calc.equation.innerHTML = ar.value1[0];
         } else if (ar.value2.length == 0) {
-            variables.calc.equation.innerHTML = ar.value1[0] + ar.operation[0];
+            v.calc.equation.innerHTML = ar.value1[0] + " " + ar.operation[0];
         } else {
-            variables.calc.equation.innerHTML = ar.value1[0] + " " + ar.operation[0] + " " + ar.value2[0];
+            v.calc.equation.innerHTML = ar.value1[0] + " " + ar.operation[0] + " " + ar.value2[0];
+        }
+        if (ar.result.length <= 1) {
+            v.calc.result.innerHTML = ar.result;
         }
     };
-        //else if (txt !== "=" && txt !== "C") {
-        //    variables.calc.equation.innerHTML += " " + txt + " ";
-        //}
 
     return {
         sqArray: function () {
@@ -121,9 +154,6 @@ var UIController = (function () {
         }
     };
 })();
-
-
-
 
 var globalController = (function (UI, App) {
 
