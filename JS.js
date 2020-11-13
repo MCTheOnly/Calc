@@ -20,7 +20,6 @@ var appController = (function () {
     };
 
     var calc = function () {
-
         switch (data.operation[0]) {
             case "+":
                 data.result.push(parseFloat(data.value1) + parseFloat(data.value2));
@@ -79,17 +78,18 @@ var appController = (function () {
                 data.value2[0] += targetHTML;
             }
 
-        } else if (data.value1.length > 0 && data.operation.length > 0 && data.value2.length > 0) {
+        } else if (data.value1.length > 0 && data.operation.length > 0 && data.value2.length > 0 ) {
             if (targetHTML == "=") {
                 calc();
             } else if (targetHTML == "+" || targetHTML == "-" || targetHTML == "x" || targetHTML == "/") {
                 calc();
-                data.value1[0] = data.result[0];
+                data.value1[0] = data.result[data.result.length-1];
+                //data.result = [];
                 data.value2 = [];
-                data.result = [];
                 data.operation[0] = targetHTML;
             }
         }
+
         if (targetHTML == "C") {
             clearAll();
         }
@@ -140,9 +140,9 @@ var UIController = (function () {
         } else {
             v.calc.equation.innerHTML = ar.value1[0] + " " + ar.operation[0] + " " + ar.value2[0];
         }
-        if (ar.result.length <= 1) {
-            v.calc.result.innerHTML = ar.result;
-        }
+        if (ar.result.length > 0) {
+            v.calc.result.innerHTML = ar.result[ar.result.length - 1];
+        }        
     };
 
     return {
