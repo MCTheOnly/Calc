@@ -30,18 +30,33 @@ var appController = (function () {
     }
 
     var calc = function () {
+        var x;
         switch (data.operation[0]) {
             case "+":
-                data.result.push((parseFloat(data.value1) + parseFloat(data.value2)).toFixed(8));
+                x = parseFloat(data.value1) + parseFloat(data.value2);
+                if (x % 1 !== 0) {
+                    data.result.push(x.toFixed(5));
+                }
+                else { data.result.push(x); }
                 break;
             case "-":
-                data.result.push((parseFloat(data.value1) - parseFloat(data.value2)).toFixed(8));
-                break;
+                x = parseFloat(data.value1) - parseFloat(data.value2);
+                if (x % 1 !== 0) {
+                    data.result.push(x.toFixed(5));
+                }
+                else { data.result.push(x); }
             case "x":
-                data.result.push((parseFloat(data.value1) * parseFloat(data.value2)).toFixed(8));
-                break;
+                x = parseFloat(data.value1) * parseFloat(data.value2);
+                if (x % 1 !== 0) {
+                    data.result.push(x.toFixed(5));
+                }
+                else { data.result.push(x); }
             case "/":
-                data.result.push((parseFloat(data.value1) / parseFloat(data.value2)).toFixed(8));
+                x = parseFloat(data.value1) / parseFloat(data.value2);
+                if (x % 1 !== 0) {
+                    data.result.push(x.toFixed(5));
+                }
+                else { data.result.push(x); }
                 break;
             //case "%":
             //    data.
@@ -150,9 +165,9 @@ var UIController = (function () {
     var updateEquation = function (txt, ar) {
         if (ar.value1.length > 0 && ar.operation.length == 0 && ar.value2.length == 0) {
             v.calc.equation.innerHTML = ar.value1[0];
-        } else if (ar.value2.length == 0) {
+        } else if (ar.value1.length > 0 && ar.value2.length == 0) {
             v.calc.equation.innerHTML = ar.value1[0] + " " + ar.operation[0];
-        } else {
+        } else if (ar.value1.length > 0){
             v.calc.equation.innerHTML = ar.value1[0] + " " + ar.operation[0] + " " + ar.value2[0];
         }
         if (ar.result.length > 0) {
