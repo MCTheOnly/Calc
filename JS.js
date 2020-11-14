@@ -32,13 +32,13 @@ var appController = (function () {
     var calc = function () {
         switch (data.operation[0]) {
             case "+":
-                data.result.push((parseFloat(data.value1) + parseFloat(data.value2))toFixed(8));
+                data.result.push((parseFloat(data.value1) + parseFloat(data.value2)).toFixed(8));
                 break;
             case "-":
-                data.result.push((parseFloat(data.value1) - parseFloat(data.value2))toFixed(8));
+                data.result.push((parseFloat(data.value1) - parseFloat(data.value2)).toFixed(8));
                 break;
             case "x":
-                data.result.push((parseFloat(data.value1) * parseFloat(data.value2))toFixed(8));
+                data.result.push((parseFloat(data.value1) * parseFloat(data.value2)).toFixed(8));
                 break;
             case "/":
                 data.result.push((parseFloat(data.value1) / parseFloat(data.value2)).toFixed(8));
