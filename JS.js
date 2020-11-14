@@ -33,6 +33,8 @@ var appController = (function () {
             case "/":
                 data.result.push(parseFloat(data.value1) / parseFloat(data.value2));
                 break;
+            //case "%":
+            //    data.
         }
     }
 
@@ -43,11 +45,17 @@ var appController = (function () {
         data.operation = [];
     }
 
+
     var calculate = function (target, txt) {
         var targetHTML, num;
 
         targetHTML = target.innerHTML;
         num = !isNaN(targetHTML);
+
+
+        if (targetHTML == "C") {
+            clearAll();
+        }
 
         if ((num == true || targetHTML == ".") && data.value1.length == 0 && data.operation.length == 0) {
             if (targetHTML == ".") {
@@ -84,14 +92,9 @@ var appController = (function () {
             } else if (targetHTML == "+" || targetHTML == "-" || targetHTML == "x" || targetHTML == "/") {
                 calc();
                 data.value1[0] = data.result[data.result.length-1];
-                //data.result = [];
                 data.value2 = [];
                 data.operation[0] = targetHTML;
             }
-        }
-
-        if (targetHTML == "C") {
-            clearAll();
         }
 
     }
@@ -115,15 +118,20 @@ var UIController = (function () {
         square.classList.add("button");
         v.calc.keyboard.appendChild(square);
         squareArr.push(square);
+
         squareArr[i].innerHTML = v.keyValues[i];
 
         if (i == 3 || i == 7 || i == 11 || i == 15) {
             squareArr[i].style.background = "#9156e1";
             squareArr[i].style.color = "white";
+            squareArr[i].style.backgroundRepeat = "no-repeat";
+
         }
         if (i !== 3 && i !== 7 && i !== 11 && i !== 15 && i !== 18) {
             squareArr[i].style.background = 'url("./img/bg' + i + '.jpg")';
             console.log(i);
+            squareArr[i].style.backgroundRepeat = "no-repeat";
+
         }
     }
     squareArr[18].style.width = "50%";
