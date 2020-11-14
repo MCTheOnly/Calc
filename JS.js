@@ -19,32 +19,34 @@ var appController = (function () {
         result: []
     };
 
-    var calc = function () {
-        switch (data.operation[0]) {
-            case "+":
-                data.result.push(parseFloat(data.value1) + parseFloat(data.value2));
-                break;
-            case "-":
-                data.result.push(parseFloat(data.value1) - parseFloat(data.value2));
-                break;
-            case "x":
-                data.result.push(parseFloat(data.value1) * parseFloat(data.value2));
-                break;
-            case "/":
-                data.result.push(parseFloat(data.value1) / parseFloat(data.value2));
-                break;
-            //case "%":
-            //    data.
-        }
-    }
 
     var clearAll = function () {
         data.value1 = [];
         data.value2 = [];
         data.result = [];
         data.operation = [];
+        v.calc.equation.innerHTML = "";
+        v.calc.result.innerHTML = "";
     }
 
+    var calc = function () {
+        switch (data.operation[0]) {
+            case "+":
+                data.result.push((parseFloat(data.value1) + parseFloat(data.value2))toFixed(8));
+                break;
+            case "-":
+                data.result.push((parseFloat(data.value1) - parseFloat(data.value2))toFixed(8));
+                break;
+            case "x":
+                data.result.push((parseFloat(data.value1) * parseFloat(data.value2))toFixed(8));
+                break;
+            case "/":
+                data.result.push((parseFloat(data.value1) / parseFloat(data.value2)).toFixed(8));
+                break;
+            //case "%":
+            //    data.
+        }
+    }
 
     var calculate = function (target, txt) {
         var targetHTML, num;
@@ -138,7 +140,12 @@ var UIController = (function () {
     squareArr[18].style.background = "#e62f89";
     squareArr[18].style.color = "white";
 
-
+    var onClick = function (target) {
+        target.style.fontSize = "2em";
+        setInterval(function () {
+        target.style.fontSize = "1.2em";
+        }, 80);
+    };
 
     var updateEquation = function (txt, ar) {
         if (ar.value1.length > 0 && ar.operation.length == 0 && ar.value2.length == 0) {
@@ -159,6 +166,9 @@ var UIController = (function () {
         },
         insertEq: function (txt, ar) {
             return updateEquation(txt, ar)
+        },
+        clickAnimation: function (target) {
+            return onClick(target);
         }
     };
 })();
@@ -172,10 +182,7 @@ var globalController = (function (UI, App) {
             App.calcThis(t);
             arr = App.publicTest();
             UI.insertEq(t.innerHTML, arr);
-            t.style.fontSize = "2em";
-            setInterval(function () {
-                t.style.fontSize = "1.2em";
-            }, 80);
+            UI.clickAnimation(t);
         })
 
         t.addEventListener("mouseover", function () {
