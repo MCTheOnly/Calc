@@ -52,11 +52,14 @@ var appController = (function () {
                 }
                 else { data.result.push(x); }
             case "/":
-                x = parseFloat(data.value1) / parseFloat(data.value2);
-                if (x % 1 !== 0) {
-                    data.result.push(x.toFixed(5));
+                if (data.value2 == 0) { alert("Nice try bro, lol"); 
+                } else {
+                    x = parseFloat(data.value1) / parseFloat(data.value2);
+                    if (x % 1 !== 0) {
+                        data.result.push(x.toFixed(5));
+                    }
+                    else { data.result.push(x); }
                 }
-                else { data.result.push(x); }
                 break;
             //case "%":
             //    data.
