@@ -30,39 +30,40 @@ var appController = (function () {
     }
 
     var calc = function () {
-        var x;
+        var val;
         switch (data.operation[0]) {
             case "+":
-                x = parseFloat(data.value1) + parseFloat(data.value2);
-                if (x % 1 !== 0) {
-                    data.result.push(x.toFixed(5));
+                val = parseFloat(data.value1) + parseFloat(data.value2);
+                if (val % 1 !== 0) {
+                    data.result.push(val.toFixed(5));
                 }
-                else { data.result.push(x); }
+                else { data.result.push(val); }
                 break;
             case "-":
-                x = parseFloat(data.value1) - parseFloat(data.value2);
-                if (x % 1 !== 0) {
-                    data.result.push(x.toFixed(5));
+                val = parseFloat(data.value1) - parseFloat(data.value2);
+                if (val % 1 !== 0) {
+                    data.result.push(val.toFixed(5));
                 }
-                else { data.result.push(x); }
+                else { data.result.push(val); }
             case "x":
-                x = parseFloat(data.value1) * parseFloat(data.value2);
-                if (x % 1 !== 0) {
-                    data.result.push(x.toFixed(5));
+                val = parseFloat(data.value1) * parseFloat(data.value2);
+                if ((val % 1) !== 0) {
+                    data.result.push(val.toFixed(5));
                 }
-                else { data.result.push(x); }
-            case "/":
-                if (data.value2 == 0) { alert("Nice try bro, lol"); 
-                } else {
-                    x = parseFloat(data.value1) / parseFloat(data.value2);
-                    if (x % 1 !== 0) {
-                        data.result.push(x.toFixed(5));
-                    }
-                    else { data.result.push(x); }
+                else {
+                    data.result.push(val);
                 }
                 break;
-            //case "%":
-            //    data.
+            case "/":
+                if (parseFloat(data.value2) == 0) { alert("Nice try bro, lol"); 
+                } else {
+                    val = parseFloat(data.value1) / parseFloat(data.value2);
+                    if (val % 1 !== 0) {
+                        data.result.push(val.toFixed(5));
+                    }
+                    else { data.result.push(val); }
+                }
+                break;
         }
     }
 
