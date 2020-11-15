@@ -34,20 +34,20 @@ var appController = (function () {
         switch (data.operation[0]) {
             case "+":
                 val = parseFloat(data.value1) + parseFloat(data.value2);
-                if (val % 1 !== 0) {
+                if (val % 1 != 0) {
                     data.result.push(val.toFixed(5));
                 }
                 else { data.result.push(val); }
                 break;
             case "-":
                 val = parseFloat(data.value1) - parseFloat(data.value2);
-                if (val % 1 !== 0) {
+                if (val % 1 != 0) {
                     data.result.push(val.toFixed(5));
                 }
                 else { data.result.push(val); }
             case "x":
                 val = parseFloat(data.value1) * parseFloat(data.value2);
-                if ((val % 1) !== 0) {
+                if ((val % 1) != 0) {
                     data.result.push(val.toFixed(5));
                 }
                 else {
@@ -58,7 +58,7 @@ var appController = (function () {
                 if (parseFloat(data.value2) == 0) { alert("Nice try bro, lol"); 
                 } else {
                     val = parseFloat(data.value1) / parseFloat(data.value2);
-                    if (val % 1 !== 0) {
+                    if (val % 1 != 0) {
                         data.result.push(val.toFixed(5));
                     }
                     else { data.result.push(val); }
@@ -91,7 +91,7 @@ var appController = (function () {
                 data.value1[0] += targetHTML;
             }
 
-        } else if (num == false && data.value1.length > 0 && data.operation.length == 0 && targetHTML !== "C" && targetHTML !== "=" && targetHTML !== "." && targetHTML !== "+/-" && targetHTML !== "%") {
+        } else if (num == false && data.value1.length > 0 && data.operation.length == 0 && targetHTML != "C" && targetHTML != "=" && targetHTML != "." && targetHTML != "+/-" && targetHTML != "%") {
             data.operation.push(targetHTML);
 
         } else if ((num == true || targetHTML == ".") && data.value1.length > 0 && data.operation.length > 0 && data.value2.length == 0) {
@@ -148,7 +148,7 @@ var UIController = (function () {
             squareArr[i].style.backgroundRepeat = "no-repeat";
 
         }
-        if (i !== 3 && i !== 7 && i !== 11 && i !== 15 && i !== 18) {
+        if (i != 3 && i != 7 && i != 11 && i != 15 && i != 18) {
             squareArr[i].style.background = 'url("./img/bg' + i + '.jpg")';
             console.log(i);
             squareArr[i].style.backgroundRepeat = "no-repeat";
