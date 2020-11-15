@@ -45,6 +45,7 @@ var appController = (function () {
                     data.result.push(val.toFixed(5));
                 }
                 else { data.result.push(val); }
+                break;
             case "x":
                 val = parseFloat(data.value1) * parseFloat(data.value2);
                 if ((val % 1) != 0) {
@@ -150,7 +151,6 @@ var UIController = (function () {
         }
         if (i != 3 && i != 7 && i != 11 && i != 15 && i != 18) {
             squareArr[i].style.background = 'url("./img/bg' + i + '.jpg")';
-            console.log(i);
             squareArr[i].style.backgroundRepeat = "no-repeat";
 
         }
