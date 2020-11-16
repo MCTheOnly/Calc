@@ -65,6 +65,15 @@ var appController = (function () {
                     else { data.result.push(val); }
                 }
                 break;
+            case "%":
+                val = parseFloat(data.value2) / parseFloat(data.value1) * 100;
+                if ((val % 1) != 0) {
+                    data.result.push(val.toFixed(5) + "%");
+                }
+                else {
+                    data.result.push(val + "%");
+                }
+                break;
         }
     }
 
@@ -92,7 +101,7 @@ var appController = (function () {
                 data.value1[0] += targetHTML;
             }
 
-        } else if (num == false && data.value1.length > 0 && data.operation.length == 0 && targetHTML != "C" && targetHTML != "=" && targetHTML != "." && targetHTML != "+/-" && targetHTML != "%") {
+        } else if (num == false && data.value1.length > 0 && data.operation.length == 0 && targetHTML != "C" && targetHTML != "=" && targetHTML != "." && targetHTML != "+/-") {
             data.operation.push(targetHTML);
 
         } else if ((num == true || targetHTML == ".") && data.value1.length > 0 && data.operation.length > 0 && data.value2.length == 0) {
@@ -111,7 +120,7 @@ var appController = (function () {
         } else if (data.value1.length > 0 && data.operation.length > 0 && data.value2.length > 0 ) {
             if (targetHTML == "=") {
                 calc();
-            } else if (targetHTML == "+" || targetHTML == "-" || targetHTML == "x" || targetHTML == "/") {
+            } else if (targetHTML == "+" || targetHTML == "-" || targetHTML == "x" || targetHTML == "/" || targetHTML == "%") {
                 calc();
                 data.value1[0] = data.result[data.result.length-1];
                 data.value2 = [];
