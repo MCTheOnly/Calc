@@ -1,4 +1,6 @@
-v = {
+'use strict';
+
+let v = {
     calculator: document.querySelector(".calcHolder"),
     calc: {
         disp: document.querySelector(".cDisplay"),
@@ -9,9 +11,9 @@ v = {
     keyValues: ["%", "+/-", "C", "/", "7", "8", "9", "x", "4", "5", "6", "+", "1", "2", "3", "-", "0", ".", "="],
 };
 
-var appController = (() => {
+let appController = (() => {
 
-    var data = {
+    let data = {
         value1: [],
         value2: [],
         operation: [],
@@ -19,7 +21,7 @@ var appController = (() => {
     };
 
 
-    var clearAll = () => {
+    let clearAll = () => {
         data.value1 = [];
         data.value2 = [];
         data.result = [];
@@ -28,8 +30,8 @@ var appController = (() => {
         v.calc.result.innerHTML = "";
     }
 
-    var calc = () => {
-        var val;
+    let calc = () => {
+        let val;
         switch (data.operation[0]) {
             case "+":
                 val = parseFloat(data.value1) + parseFloat(data.value2);
@@ -76,8 +78,8 @@ var appController = (() => {
         }
     }
 
-    var calculate = (target, txt) => {
-        var targetHTML, num;
+    let calculate = (target, txt) => {
+        let targetHTML, num;
 
         targetHTML = target.innerHTML;
         num = !isNaN(targetHTML);
@@ -139,7 +141,7 @@ var appController = (() => {
     }
     })();
 
-var UIController = (() => {
+let UIController = (() => {
 
     let squareArr = [];
 
@@ -167,14 +169,14 @@ var UIController = (() => {
     squareArr[18].style.background = "#e62f89";
     squareArr[18].style.color = "white";
 
-    var onClick = (target) => {
+    let onClick = (target) => {
         target.style.fontSize = "2em";
         setInterval(function () {
         target.style.fontSize = "1.2em";
         }, 80);
     };
 
-    var updateEquation = (txt, ar) => {
+    let updateEquation = (txt, ar) => {
         if (ar.value1.length > 0 && ar.operation.length == 0 && ar.value2.length == 0) {
             v.calc.equation.innerHTML = ar.value1[0];
         } else if (ar.value1.length > 0 && ar.value2.length == 0) {
@@ -200,10 +202,10 @@ var UIController = (() => {
     };
 })();
 
-var globalController = ((UI, App) => {
+let globalController = ((UI, App) => {
 
     UI.sqArray().forEach((t) => {
-        var arr, bg;
+        let arr, bg;
 
         t.addEventListener("click", () => {
             App.calcThis(t);
