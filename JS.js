@@ -160,7 +160,7 @@ let UIController = (() => {
 
         }
         if (i != 3 && i != 7 && i != 11 && i != 15 && i != 18) {
-            squareArr[i].style.background = 'url("./img/bg' + i + '.jpg")';
+            squareArr[i].style.background = `url("./img/bg${i}.jpg")`;
             squareArr[i].style.backgroundRepeat = "no-repeat";
 
         }
