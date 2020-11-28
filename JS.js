@@ -6,11 +6,10 @@ v = {
         equation: document.querySelector(".equation"),
         result: document.querySelector(".result")
     },
-    keyValues: ["%", "+/-", "C", "/", "7", "8", "9", "x", "4", "5", "6", "+", "1", "2", "3", "-", "0", ".", "="]
+    keyValues: ["%", "+/-", "C", "/", "7", "8", "9", "x", "4", "5", "6", "+", "1", "2", "3", "-", "0", ".", "="],
 };
 
-
-var appController = (function () {
+var appController = (() => {
 
     var data = {
         value1: [],
@@ -20,7 +19,7 @@ var appController = (function () {
     };
 
 
-    var clearAll = function () {
+    var clearAll = () => {
         data.value1 = [];
         data.value2 = [];
         data.result = [];
@@ -29,7 +28,7 @@ var appController = (function () {
         v.calc.result.innerHTML = "";
     }
 
-    var calc = function () {
+    var calc = () => {
         var val;
         switch (data.operation[0]) {
             case "+":
@@ -66,18 +65,18 @@ var appController = (function () {
                 }
                 break;
             case "%":
-                val = parseFloat(data.value2) / parseFloat(data.value1) * 100;
+                val = parseFloat(data.value2) / parseFloat(data.value1);
                 if ((val % 1) != 0) {
-                    data.result.push(val.toFixed(5) + "%");
+                    data.result.push(val.toFixed(5));
                 }
-                else {
-                    data.result.push(val + "%");
+                else {e
+                    data.result.push(val);
                 }
                 break;
         }
     }
 
-    var calculate = function (target, txt) {
+    var calculate = (target, txt) => {
         var targetHTML, num;
 
         targetHTML = target.innerHTML;
@@ -131,16 +130,16 @@ var appController = (function () {
     }
 
     return {
-        publicTest: function () {
+        publicTest: () => {
             return data
         },
-        calcThis: function (target, txt) {
+        calcThis: (target, txt) => {
             return calculate(target, txt)
         }
     }
     })();
 
-var UIController = (function () {
+var UIController = (() => {
 
     let squareArr = [];
 
@@ -168,14 +167,14 @@ var UIController = (function () {
     squareArr[18].style.background = "#e62f89";
     squareArr[18].style.color = "white";
 
-    var onClick = function (target) {
+    var onClick = (target) => {
         target.style.fontSize = "2em";
         setInterval(function () {
         target.style.fontSize = "1.2em";
         }, 80);
     };
 
-    var updateEquation = function (txt, ar) {
+    var updateEquation = (txt, ar) => {
         if (ar.value1.length > 0 && ar.operation.length == 0 && ar.value2.length == 0) {
             v.calc.equation.innerHTML = ar.value1[0];
         } else if (ar.value1.length > 0 && ar.value2.length == 0) {
@@ -189,35 +188,35 @@ var UIController = (function () {
     };
 
     return {
-        sqArray: function () {
+        sqArray: () => {
          return squareArr
         },
-        insertEq: function (txt, ar) {
+        insertEq: (txt, ar) => {
             return updateEquation(txt, ar)
         },
-        clickAnimation: function (target) {
+        clickAnimation: (target) => {
             return onClick(target);
         }
     };
 })();
 
-var globalController = (function (UI, App) {
+var globalController = ((UI, App) => {
 
-    UI.sqArray().forEach(function (t) {
+    UI.sqArray().forEach((t) => {
         var arr, bg;
 
-        t.addEventListener("click", function () {
+        t.addEventListener("click", () => {
             App.calcThis(t);
             arr = App.publicTest();
             UI.insertEq(t.innerHTML, arr);
             UI.clickAnimation(t);
         })
 
-        t.addEventListener("mouseover", function () {
+        t.addEventListener("mouseover", () => {
             bg = t.style.background;
             t.style.background = "green";
         })
-        t.addEventListener("mouseout", function() {
+        t.addEventListener("mouseout", () => {
             t.style.background = bg;
         })
     })
