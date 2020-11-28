@@ -180,9 +180,9 @@ let UIController = (() => {
         if (ar.value1.length > 0 && ar.operation.length == 0 && ar.value2.length == 0) {
             v.calc.equation.innerHTML = ar.value1[0];
         } else if (ar.value1.length > 0 && ar.value2.length == 0) {
-            v.calc.equation.innerHTML = ar.value1[0] + " " + ar.operation[0];
+            v.calc.equation.innerHTML = `${ar.value1[0]} ${ar.operation[0]}`;
         } else if (ar.value1.length > 0){
-            v.calc.equation.innerHTML = ar.value1[0] + " " + ar.operation[0] + " " + ar.value2[0];
+            v.calc.equation.innerHTML = `${ar.value1[0]} ${ar.operation[0]} ${ar.value2[0]}`;
         }
         if (ar.result.length > 0) {
             v.calc.result.innerHTML = ar.result[ar.result.length - 1];
