@@ -13,7 +13,7 @@ let v = {
 
 let appController = (() => {
 
-    let data = {
+    const data = {
         value1: [],
         value2: [],
         operation: [],
@@ -21,7 +21,7 @@ let appController = (() => {
     };
 
 
-    let clearAll = () => {
+    const clearAll = () => {
         data.value1 = [];
         data.value2 = [];
         data.result = [];
@@ -30,7 +30,7 @@ let appController = (() => {
         v.calc.result.innerHTML = "";
     }
 
-    let calc = () => {
+    const calc = () => {
         let val;
         switch (data.operation[0]) {
             case "+":
@@ -78,7 +78,7 @@ let appController = (() => {
         }
     }
 
-    let calculate = (target, txt) => {
+    const calculate = (target, txt) => {
         let targetHTML, num;
 
         targetHTML = target.innerHTML;
@@ -141,9 +141,9 @@ let appController = (() => {
     }
     })();
 
-let UIController = (() => {
+const UIController = (() => {
 
-    let squareArr = [];
+    const squareArr = [];
 
     for (let i = 0; i < 19; i++) {
         const square = document.createElement("div");
@@ -169,14 +169,14 @@ let UIController = (() => {
     squareArr[18].style.background = "#e62f89";
     squareArr[18].style.color = "white";
 
-    let onClick = (target) => {
+    const onClick = (target) => {
         target.style.fontSize = "2em";
         setInterval(function () {
         target.style.fontSize = "1.2em";
         }, 80);
     };
 
-    let updateEquation = (txt, ar) => {
+    const updateEquation = (txt, ar) => {
         if (ar.value1.length > 0 && ar.operation.length == 0 && ar.value2.length == 0) {
             v.calc.equation.innerHTML = ar.value1[0];
         } else if (ar.value1.length > 0 && ar.value2.length == 0) {
@@ -202,7 +202,7 @@ let UIController = (() => {
     };
 })();
 
-let globalController = ((UI, App) => {
+const globalController = ((UI, App) => {
 
     UI.sqArray().forEach((t) => {
         let arr, bg;
