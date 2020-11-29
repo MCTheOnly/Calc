@@ -1,6 +1,6 @@
 'use strict';
 
-let v = {
+const v = {
     calculator: document.querySelector(".calcHolder"),
     calc: {
         disp: document.querySelector(".cDisplay"),
@@ -11,7 +11,7 @@ let v = {
     keyValues: ["%", "+/-", "C", "/", "7", "8", "9", "x", "4", "5", "6", "+", "1", "2", "3", "-", "0", ".", "="],
 };
 
-let appController = (() => {
+const appController = (() => {
 
     const data = {
         value1: [],
