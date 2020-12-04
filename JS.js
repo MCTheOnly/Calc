@@ -8,8 +8,12 @@ const v = {
         equation: document.querySelector(".equation"),
         result: document.querySelector(".result")
     },
-    keyValues: ["%", "+/-", "C", "/", "7", "8", "9", "x", "4", "5", "6", "+", "1", "2", "3", "-", "0", ".", "="],
+    keyValues: ["%", "+/-", "C", "/", "7", "8", "9", "*", "4", "5", "6", "+", "1", "2", "3", "-", "0", ".", "="],
+    operators: ["+", "-", "*", "/", "%"],
+    forbidden: ["C", "=", ".", "+/-"]
 };
+
+console.log(v.keyValues.includes("+"));
 
 const appController = (() => {
 
@@ -28,108 +32,66 @@ const appController = (() => {
         data.operation = [];
         v.calc.equation.innerHTML = "";
         v.calc.result.innerHTML = "";
-    }
+    };
 
     const calc = () => {
-        let val;
-        switch (data.operation[0]) {
-            case "+":
-                val = parseFloat(data.value1) + parseFloat(data.value2);
-                if (val % 1 != 0) {
-                    data.result.push(val.toFixed(5));
-                }
-                else { data.result.push(val); }
-                break;
-            case "-":
-                val = parseFloat(data.value1) - parseFloat(data.value2);
-                if (val % 1 != 0) {
-                    data.result.push(val.toFixed(5));
-                }
-                else { data.result.push(val); }
-                break;
-            case "x":
-                val = parseFloat(data.value1) * parseFloat(data.value2);
-                if ((val % 1) != 0) {
-                    data.result.push(val.toFixed(5));
-                }
-                else {
-                    data.result.push(val);
-                }
-                break;
-            case "/":
-                if (parseFloat(data.value2) == 0) { alert("Nice try bro, lol"); 
-                } else {
-                    val = parseFloat(data.value1) / parseFloat(data.value2);
-                    if (val % 1 != 0) {
-                        data.result.push(val.toFixed(5));
-                    }
-                    else { data.result.push(val); }
-                }
-                break;
-            case "%":
-                val = parseFloat(data.value2) / parseFloat(data.value1);
-                if ((val % 1) != 0) {
-                    data.result.push(val.toFixed(5));
-                }
-                else {e
-                    data.result.push(val);
-                }
-                break;
-        }
-    }
+        let val1, val2, valRes, valMod, valPush, pusher;
+
+        val1 = parseFloat(data.value1);
+        val2 = parseFloat(data.value2);
+        valRes = eval(`${val1} ${data.operation[0]} ${val2}`);
+        valPush = (outcome) => data.result.push(outcome);
+        pusher = (outcome) => {
+            valMod = (valRes % 1) != 0;
+            if (valMod) { valPush(outcome.toFixed(5)); }
+            else { valPush(outcome); };
+        };
+        pusher(valRes);
+    };
 
     const calculate = (target, txt) => {
-        let targetHTML, num;
+        let targetHTML, num, numDot, val1Check, val2Check, opCheck, operators, forbidden, dot;
 
         targetHTML = target.innerHTML;
         num = !isNaN(targetHTML);
+        dot = targetHTML == ".";
+        numDot = (num || dot);
+        val1Check = data.value1.length == 0;
+        val2Check = data.value2.length == 0;
+        opCheck = data.operation.length == 0;
+        operators = v.operators.includes(targetHTML);
+        forbidden = v.forbidden.includes(target);
 
 
-        if (targetHTML == "C") {
-            clearAll();
-        }
+        if (targetHTML == "C") { clearAll(); };
 
-        if ((num == true || targetHTML == ".") && data.value1.length == 0 && data.operation.length == 0) {
-            if (targetHTML == ".") {
-                data.value1.push("0" + targetHTML);
-            } else {
-                data.value1.push(targetHTML);
-            }
-
-        } else if ((num == true || targetHTML == ".") && data.value1.length > 0 && data.operation.length == 0) {
-            if (data.value1[0].includes(".") == true && targetHTML == ".") {
-            } else {
-                data.value1[0] += targetHTML;
-            }
-
-        } else if (num == false && data.value1.length > 0 && data.operation.length == 0 && targetHTML != "C" && targetHTML != "=" && targetHTML != "." && targetHTML != "+/-") {
+        if (numDot && val1Check && opCheck) {
+            if (dot) {
+                data.value1.push("0.");
+            } else { data.value1.push(targetHTML); }
+        } else if (numDot && !val1Check && opCheck) {
+            if (data.value1[0].includes(".") == true && dot) {
+            } else { data.value1[0] += targetHTML; }
+        } else if (!num && !val1Check && opCheck && !forbidden) {
             data.operation.push(targetHTML);
-
-        } else if ((num == true || targetHTML == ".") && data.value1.length > 0 && data.operation.length > 0 && data.value2.length == 0) {
-            if (data.value2.length == 0 && targetHTML == ".") {
-                data.value2.push("0" + targetHTML);
-            } else {
-                data.value2.push(targetHTML);
-            }
-
-        } else if ((num == true || targetHTML == ".") && data.value1.length > 0 && data.operation.length > 0 && data.value2.length > 0) {
-            if (data.value2[0].includes(".") && targetHTML == ".") {
-            } else {
-                data.value2[0] += targetHTML;
-            }
-
-        } else if (data.value1.length > 0 && data.operation.length > 0 && data.value2.length > 0 ) {
+        } else if (numDot && !val1Check && !opCheck && val2Check) {
+            if (data.value2.length == 0 && dot) {
+                data.value2.push("0.");
+            } else { data.value2.push(targetHTML); }
+        } else if (numDot && !val1Check && !opCheck && !val2Check) {
+            if (data.value2[0].includes(".") && dot) {
+            } else { data.value2[0] += targetHTML; }
+        } else {
             if (targetHTML == "=") {
                 calc();
-            } else if (targetHTML == "+" || targetHTML == "-" || targetHTML == "x" || targetHTML == "/" || targetHTML == "%") {
+            } else if (operators) {
                 calc();
-                data.value1[0] = data.result[data.result.length-1];
+                data.value1[0] = data.result[data.result.length - 1];
                 data.value2 = [];
                 data.operation[0] = targetHTML;
-            }
-        }
-
-    }
+            };
+        };
+    };
 
     return {
         publicTest: () => {
@@ -157,14 +119,13 @@ const UIController = (() => {
             squareArr[i].style.background = "#9156e1";
             squareArr[i].style.color = "white";
             squareArr[i].style.backgroundRepeat = "no-repeat";
-
-        }
+        };
         if (i != 3 && i != 7 && i != 11 && i != 15 && i != 18) {
             squareArr[i].style.background = `url("./img/bg${i}.jpg")`;
             squareArr[i].style.backgroundRepeat = "no-repeat";
 
-        }
-    }
+        };
+    };
     squareArr[18].style.width = "50%";
     squareArr[18].style.background = "#e62f89";
     squareArr[18].style.color = "white";
@@ -183,10 +144,10 @@ const UIController = (() => {
             v.calc.equation.innerHTML = `${ar.value1[0]} ${ar.operation[0]}`;
         } else if (ar.value1.length > 0){
             v.calc.equation.innerHTML = `${ar.value1[0]} ${ar.operation[0]} ${ar.value2[0]}`;
-        }
+        };
         if (ar.result.length > 0) {
             v.calc.result.innerHTML = ar.result[ar.result.length - 1];
-        }        
+        };
     };
 
     return {
@@ -212,15 +173,13 @@ const globalController = ((UI, App) => {
             arr = App.publicTest();
             UI.insertEq(t.innerHTML, arr);
             UI.clickAnimation(t);
-        })
-
+        });
         t.addEventListener("mouseover", () => {
             bg = t.style.background;
             t.style.background = "green";
-        })
+        });
         t.addEventListener("mouseout", () => {
             t.style.background = bg;
-        })
-    })
-
+        });
+    });
 })(UIController, appController);
